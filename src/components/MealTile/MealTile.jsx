@@ -1,4 +1,4 @@
-import {useState} from "react";
+import { useState } from "react";
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
@@ -7,53 +7,75 @@ import { CardActions, Typography } from "@mui/material";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 
-
-export const MealTile = ({idMeal, strMeal, strMealThumb, addToCart, cart}) => {
+export const MealTile = ({
+  idMeal,
+  strMeal,
+  strMealThumb,
+  addToCart,
+  removeFromCart,
+  cart,
+}) => {
   const [isLoading, setisLoading] = useState(false);
-  console.log('cart', cart);
-  const isAddedToCart = cart.meals[idMeal]
+  console.log("cart", cart);
+  const isAddedToCart = cart.meals[idMeal];
 
   const handleClick = () => {
-    addToCart(idMeal)
+    addToCart(idMeal);
     setisLoading(true);
-  }
+  };
+  const handleDelClick = () => {
+    removeFromCart(idMeal);
+    setisLoading(false);
+  };
 
   const getButtonStatus = () => {
     if (isAddedToCart) {
-      return "Added"
+      return "Added";
     }
 
     if (isLoading) {
-      return "loading ..."
+      return "loading ...";
     } else {
-      return "+ Add"
+      return "+ Add";
     }
-  }
+  };
 
   return (
     <Grid key={idMeal} item xs={6} md={4}>
       <Card>
         <CardMedia
-          component="img"
+          component='img'
           alt={`picture of ${strMeal}`}
-          height="140"
+          height='140'
           image={strMealThumb}
         />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
+          <Typography gutterBottom variant='h5' component='div'>
             {strMeal}
           </Typography>
         </CardContent>
         <CardActions>
-          <Button size="small">
+          <Button size='small'>
             <Link to={`/${idMeal}`}>Details</Link>
           </Button>
 
-          <Button disabled={isLoading || isAddedToCart} onClick={handleClick} size="small">
+          <Button
+            disabled={isLoading || isAddedToCart}
+            onClick={handleClick}
+            size='small'
+          >
             {getButtonStatus()}
+          </Button>
+          <Button
+            disabled={!isAddedToCart}
+            onClick={handleDelClick}
+            size='small'
+          >
+            delete
+            {/* {getButtonStatus()} */}
           </Button>
         </CardActions>
       </Card>
     </Grid>
-  )
-}
+  );
+};
